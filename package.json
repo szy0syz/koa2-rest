@@ -1,0 +1,35 @@
+{
+  "name": "koa2-rest",
+  "version": "0.1.0",
+  "description": "create restful api with koa2",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/szy0syz/koa2-rest.git"
+  },
+  "keywords": [
+    "koa2",
+    "restful",
+    "restful-api",
+    "mongoose"
+  ],
+  "author": "Jerry Shi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/szy0syz/koa2-rest/issues"
+  },
+  "homepage": "https://github.com/szy0syz/koa2-rest#readme",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.2.1"
+  }
+}
