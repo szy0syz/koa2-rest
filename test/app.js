@@ -16,6 +16,10 @@ const studentSchema = new Schema({
   school: {
     type: Schema.Types.ObjectId,
     ref: 'school'
+  },
+  parent: {
+    type: Schema.Types.ObjectId,
+    ref: 'parent'
   }
 })
 
@@ -24,8 +28,14 @@ const schoolSchema = new Schema({
   address: String
 })
 
+const parentSchema = new Schema({
+  name: String,
+  phone: String
+})
+
 mongoose.model('student',studentSchema)
 mongoose.model('school',schoolSchema)
+mongoose.model('parent',parentSchema)
 
 mongoose.connection
   .on('error', err => {
@@ -36,12 +46,26 @@ mongoose.connection
   })
   .on('open', async () => {
     console.info('mongoose start')
-    const Student = mongoose.model('student')
+    // const Student = mongoose.model('student')
     // const School = mongoose.model('school')
+    // const Parent = mongoose.model('parent')
 
-    const student_count = await Student.collection.countDocuments()
+    // const student_count = await Student.collection.countDocuments()
 
-    console.log('student_count', student_count)
+    // console.log('student_count', student_count)
+
+    // const dataParent = [
+    //   {
+    //     name: '小王他爹',
+    //     phone: '13888000444'
+    //   },
+    //   {
+    //     name: '小张他妈',
+    //     phone: '15508722982'
+    //   }
+    // ]
+
+    // Parent.insertMany(dataParent)
 
     // const dataSchool = [
     //   {
@@ -80,14 +104,11 @@ mongoose.connection
     // await Student.insertMany(dataStudent)
   })
 
-
-
 const app = new Koa();
 
 app.use(bodyParser())
 
 let router = new Router()
-
 
 const tab = function (tab) {
   let model;
@@ -105,7 +126,7 @@ router.get('/', ctx=> {
 
 router.get('/api/:model', async (ctx, next) => {
   const Model = tab(ctx.params.model)
-  const res = await Model.find({}).populate('school')
+  const res = await Model.find({}).populate(['school', 'parent'])
 
   ctx.body = {
     success: true,
