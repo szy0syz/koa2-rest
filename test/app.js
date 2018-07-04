@@ -33,9 +33,9 @@ const parentSchema = new Schema({
   phone: String
 })
 
-mongoose.model('student',studentSchema)
-mongoose.model('school',schoolSchema)
-mongoose.model('parent',parentSchema)
+mongoose.model('student', studentSchema)
+mongoose.model('school', schoolSchema)
+mongoose.model('parent', parentSchema)
 
 mongoose.connection
   .on('error', err => {
@@ -44,15 +44,24 @@ mongoose.connection
   .on('disconnected', () => {
     console.warn('MongoDB disconnected')
   })
-  .on('open', async () => {
+  .once('open', async () => {
     console.info('mongoose start')
-    // const Student = mongoose.model('student')
-    // const School = mongoose.model('school')
-    // const Parent = mongoose.model('parent')
+    const Student = mongoose.model('student')
+    const School = mongoose.model('school')
+    const Parent = mongoose.model('parent')
 
-    // const student_count = await Student.collection.countDocuments()
+    const students_count = await Student.collection.count()
 
-    // console.log('student_count', student_count)
+    // if (students_count === 0) {
+    //   let data = require('./data.json')
+    //   const school = await School.insertMany(data.school).exec()
+    //   const parent = await Parent.insertMany(data.parents).exec()
+    //   data.students = [{ school: school._id, parent: parent._id, ...data.students }]
+    //   console.log(data.students)
+    //   await Student.insertMany(data.students)
+    //   console.log(school)
+    //   console.log(parent)
+    // }
 
     // const dataParent = [
     //   {
@@ -81,7 +90,6 @@ mongoose.connection
     // await School.insertMany(dataSchool)
 
     // const one = await School.findOne({}).exec()
-    // console.log(one)
 
     // const dataStudent = [
     //   {
@@ -113,14 +121,14 @@ let router = new Router()
 const tab = function (tab) {
   let model;
   try {
-      model = mongoose.model(tab);
+    model = mongoose.model(tab);
   } catch (error) {
-      model = mongoose.model(tab, new Schema({}, { strict: false }));
+    model = mongoose.model(tab, new Schema({}, { strict: false }));
   }
   return model;
 }
 
-router.get('/', ctx=> {
+router.get('/', ctx => {
   ctx.body = 'index'
 })
 
